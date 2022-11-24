@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once "conn.php";
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,32 +12,44 @@
     <title>Document</title>
 </head>
 <body>
-<?php
-    echo "<table >";
-    $a=1;
-    while($a<=10)
+    <?php
+    if(isset($_SESSION['full_name']))
     {
-       echo "<tr>$a<td></td><td></td></tr><br>";
-       echo ++$a;
+        echo "สวัสดีคุณ".$_SESSION['full_name']." ---  ".'<a href="logout.php">Logout</a> | <a href="add.php">Add</a><br><br>';;
     }
-    echo "</table>"
-    
-?>
-<form action="welcome.php" method="post">
-Name: <input type="text" name="name"><br>
-E-mail: <input type="text" name="email"><br>
-<input type="submit">
-</form>
-
-<?php
-$t = date("H");
-
-if ($t < "15") {
-  echo "Have a good day!";
-} else {
-  echo "Have a good night!";
-}
-?>
-
+    else{
+        echo "<a href='login.php'>เข้าสู่ระบบ</a><br><br>";
+    }
+    ?>
+    <table border="1">
+        <tr>
+            <td>ID</td>
+            <td>Username</td>
+            <td>password</td>
+            <td>Firstname</td>
+            <td>Lastname</td>
+        </tr>
+        <?php
+$sql = "SELECT * FROM user";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_assoc()) 
+  {
+    ?>
+        <tr>
+            <td><?=$row['user_id']?></td>
+            <td><?=$row['user_name']?></td>
+            <td><?=$row['user_password']?></td>
+            <td><?=$row['user_firstname']?></td>
+            <td><?=$row['user_lastname']?></td>
+        </tr>
+    <?php
+      }
+    } else {
+      echo "0 results";
+    }
+    $conn->close();
+    ?>
+    </table>
 </body>
 </html>
