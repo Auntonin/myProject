@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "food_panqueen_db";
+$dbname = "food";
 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
